@@ -11,6 +11,7 @@ import { RolesPermissionsModule } from './roles_permissions/roles_permissions.mo
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { MenusModule } from './menus/menus.module';
+import { CustomersModule } from './customers/customers.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { MenusModule } from './menus/menus.module';
     RolesPermissionsModule,
     CategoriesModule,
     MenusModule,
+    CustomersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
