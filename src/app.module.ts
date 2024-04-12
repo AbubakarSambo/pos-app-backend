@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { MenusModule } from './menus/menus.module';
 import { CustomersModule } from './customers/customers.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { CustomersModule } from './customers/customers.module';
     CategoriesModule,
     MenusModule,
     CustomersModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

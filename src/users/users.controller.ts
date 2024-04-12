@@ -11,6 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('users')
 export class UsersController {
@@ -21,9 +22,23 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Post('reset-password/:id')
+  reset(@Body() resetPasswordDto: ResetPasswordDto, @Param('id') id: number) {
+    return this.usersService.reset(resetPasswordDto, id);
+  }
+
   @Get()
-  findAll(@Query('orgId') orgId: number) {
-    return this.usersService.findAll(orgId);
+  async findAll(
+    @Query('skip') skip: number,
+    @Query('take') take: number,
+    @Query('orgId') orgId: number,
+  ) {
+    const [response, total] = await this.usersService.findAll(
+      skip,
+      take,
+      orgId,
+    );
+    return { data: response, total };
   }
 
   @Get(':id')
