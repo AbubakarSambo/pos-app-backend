@@ -1,26 +1,69 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { Order } from './entities/order.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+// import { Menu } from 'src/menus/entities/menu.entity';
 
 @Injectable()
 export class OrdersService {
+  constructor(
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository<Order>,
+    // private readonly menuRepository: Repository<Menu>,
+  ) {}
   create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+    console.log({ menu: createOrderDto.menu });
+    return this.orderRepository.save(createOrderDto);
   }
 
-  findAll() {
-    return `This action returns all orders`;
+  findAll(orgId: number) {
+    return this.orderRepository.find({
+      where: { orgId },
+      relations: ['menu', 'customer'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    const order = await this.orderRepository.findOne({
+      where: { id },
+    });
+    if (!order) {
+      throw new NotFoundException('Could not find order');
+    }
+
+    return order;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    const orderToUpdate = await this.orderRepository.findOne({
+      where: { id },
+    });
+
+    if (orderToUpdate.status) {
+      orderToUpdate.status = updateOrderDto.status;
+    }
+    if (orderToUpdate.menu) {
+      orderToUpdate.menu = updateOrderDto.menu;
+    }
+    if (orderToUpdate.customer) {
+      orderToUpdate.customer = updateOrderDto.customer;
+    }
+
+    const updated = await this.orderRepository.save(orderToUpdate);
+    return updated;
   }
 
   remove(id: number) {
     return `This action removes a #${id} order`;
   }
+
+  // async findMenusInOrder(menuId: number): Promise<Menu[]> {
+  //   return this.menuRepository
+  //     .createQueryBuilder('order')
+  //     .leftJoinAndSelect('order.menu', 'menu')
+  //     .where('menu.id = :id', { menuId })
+  //     .getMany();
+  // }
 }

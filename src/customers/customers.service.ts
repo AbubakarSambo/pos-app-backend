@@ -27,6 +27,17 @@ export class CustomersService {
     });
   }
 
+  async searchCustomers(query: string, orgId: number): Promise<Customer[]> {
+    return this.customerRepository
+      .createQueryBuilder('customer')
+      .where('customer.orgId = :orgId')
+      .andWhere(
+        '(LOWER(customer.firstName) LIKE LOWER(:query) OR LOWER(customer.lastName) LIKE LOWER(:query))',
+        { query: `%${query}%`, orgId },
+      )
+      .getMany();
+  }
+
   async findOne(id: number) {
     const category = await this.customerRepository.findOne({ where: { id } });
     if (!category) {

@@ -1,4 +1,5 @@
 import { Category } from 'src/categories/entities/category.entity';
+import { Order } from 'src/orders/entities/order.entity';
 import { Organization } from 'src/organizations/entities/organization.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -39,4 +41,7 @@ export class Menu {
   @ManyToMany(() => Organization, (org) => org.id)
   @JoinColumn({ name: 'orgId', referencedColumnName: 'id' })
   organization: Organization;
+
+  @ManyToOne(() => Order, (orderItem) => orderItem.menu)
+  order: Order;
 }

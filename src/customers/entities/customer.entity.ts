@@ -1,9 +1,11 @@
+import { Order } from 'src/orders/entities/order.entity';
 import { Organization } from 'src/organizations/entities/organization.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -29,4 +31,7 @@ export class Customer {
   @ManyToMany(() => Organization, (org) => org.id)
   @JoinColumn({ name: 'orgId', referencedColumnName: 'id' })
   organization: Organization;
+
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order[];
 }

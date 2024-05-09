@@ -25,6 +25,15 @@ export class CustomersController {
     return this.customersService.create(createCustomerDto, orgId);
   }
 
+  @Get('search')
+  async searchCustomers(
+    @Query('query') query: string,
+    @Query('orgId') orgId: number,
+  ): Promise<Customer[]> {
+    const customers = await this.customersService.searchCustomers(query, orgId);
+    return customers;
+  }
+
   @Get()
   async findAll(
     @Query('skip') skip: number,

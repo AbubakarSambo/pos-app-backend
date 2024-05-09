@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRolesPermissionDto } from './dto/create-roles_permission.dto';
 import { UpdateRolesPermissionDto } from './dto/update-roles_permission.dto';
 import { Repository } from 'typeorm';
@@ -21,8 +21,15 @@ export class RolesPermissionsService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rolesPermission`;
+  async findOne(id: number) {
+    const rolePerm = await this.rolesPermissionsRepository.findOne({
+      where: { id },
+    });
+    if (!rolePerm) {
+      throw new NotFoundException('Could not find rolePerm');
+    }
+
+    return rolePerm;
   }
 
   update(id: number, updateRolesPermissionDto: UpdateRolesPermissionDto) {
