@@ -1,9 +1,11 @@
+import { Menu } from 'src/menus/entities/menu.entity';
 import { Organization } from 'src/organizations/entities/organization.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -17,6 +19,9 @@ export class Category {
 
   @Column()
   orgId: number;
+
+  @OneToMany(() => Menu, (menu) => menu.category)
+  menus: Menu[];
 
   @ManyToMany(() => Organization, (org) => org.id)
   @JoinColumn({ name: 'orgId', referencedColumnName: 'id' })

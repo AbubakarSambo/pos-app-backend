@@ -6,9 +6,9 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -31,11 +31,14 @@ export class Order {
   @ManyToOne(() => Customer, (customer) => customer.orders)
   customer: Customer;
 
-  @ManyToOne(() => OrderSource, (order) => order, { cascade: true })
+  @ManyToOne(() => OrderSource, (orderSource) => orderSource.orders, {
+    cascade: true,
+  })
   orderSource: OrderSource;
 
-  @OneToMany(() => Menu, (menuItem) => menuItem.order, { cascade: true })
-  menu: Menu[];
+  @ManyToMany(() => Menu, (menu) => menu.orders)
+  @JoinTable()
+  menuItems: Menu[];
 
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.OPEN })
   status: OrderStatus;
@@ -43,7 +46,7 @@ export class Order {
   @Column()
   orgId: number;
 
-  @ManyToMany(() => Organization, (org) => org.id)
-  @JoinColumn({ name: 'orgId', referencedColumnName: 'id' })
+  @ManyToOne(() => Organization, (organization) => organization.orders)
+  @JoinColumn({ name: 'orgId' })
   organization: Organization;
 }

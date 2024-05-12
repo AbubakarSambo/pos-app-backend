@@ -12,7 +12,6 @@ export class MenusService {
     private readonly menuRepository: Repository<Menu>,
   ) {}
   create(createMenuDto: CreateMenuDto) {
-    console.log({ createMenuDto });
     return this.menuRepository.save(createMenuDto);
   }
 
@@ -36,7 +35,6 @@ export class MenusService {
     const updateMenu = await this.menuRepository.findOne({
       where: { id },
     });
-    console.log({ updateMenu, updateMenuDto });
     if (updateMenuDto.name) {
       updateMenu.name = updateMenuDto.name;
     }

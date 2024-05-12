@@ -7,7 +7,6 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -31,17 +30,17 @@ export class Menu {
   @Column()
   categoryId: number;
 
-  @ManyToOne(() => Category, (org) => org.id)
-  @JoinColumn({ name: 'categoryId', referencedColumnName: 'id' })
+  @ManyToOne(() => Category, (category) => category.menus)
+  @JoinColumn({ name: 'categoryId' })
   category: Category;
 
   @Column()
   orgId: number;
 
-  @ManyToMany(() => Organization, (org) => org.id)
-  @JoinColumn({ name: 'orgId', referencedColumnName: 'id' })
+  @ManyToOne(() => Organization, (organization) => organization.menus)
+  @JoinColumn({ name: 'orgId' })
   organization: Organization;
 
-  @ManyToOne(() => Order, (orderItem) => orderItem.menu)
-  order: Order;
+  @ManyToMany(() => Order, (order) => order.menuItems)
+  orders: Order[];
 }

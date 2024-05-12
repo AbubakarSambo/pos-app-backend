@@ -37,11 +37,11 @@ export class OrdersController {
     const MenusPromises = createOrderDto.menu.map((menuItem) =>
       this.menusService.findOne(menuItem),
     );
-    const menu = await Promise.all(MenusPromises);
+    const menuItems = await Promise.all(MenusPromises);
 
     const payload = {
       customer,
-      menu,
+      menuItems,
       orderDate: createOrderDto.orderDate,
       status: createOrderDto.status,
       orgId: createOrderDto.orgId,

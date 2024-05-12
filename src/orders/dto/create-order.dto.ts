@@ -5,7 +5,7 @@ import { Menu } from 'src/menus/entities/menu.entity';
 export class CreateOrderDto {
   orderDate: Date;
   customer: Customer;
-  menu: Menu[];
+  menuItems: Menu[];
   status: OrderStatus;
   orgId: number;
 }

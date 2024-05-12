@@ -13,14 +13,13 @@ export class OrdersService {
     private readonly orderRepository: Repository<Order>,
   ) {}
   create(createOrderDto: CreateOrderDto) {
-    console.log({ createOrderDto });
     return this.orderRepository.save(createOrderDto);
   }
 
   findAll(orgId: number) {
     return this.orderRepository.find({
       where: { orgId },
-      relations: ['menu', 'customer', 'orderSource'],
+      relations: ['menuItems', 'customer', 'orderSource'],
       order: {
         orderDate: 'DESC',
       },
@@ -46,8 +45,8 @@ export class OrdersService {
     if (orderToUpdate.status) {
       orderToUpdate.status = updateOrderDto.status;
     }
-    if (orderToUpdate.menu) {
-      orderToUpdate.menu = updateOrderDto.menu;
+    if (orderToUpdate.menuItems) {
+      orderToUpdate.menuItems = updateOrderDto.menuItems;
     }
     if (orderToUpdate.customer) {
       orderToUpdate.customer = updateOrderDto.customer;

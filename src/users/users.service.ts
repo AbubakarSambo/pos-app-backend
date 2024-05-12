@@ -93,11 +93,6 @@ export class UsersService {
       oldPassword,
       userToUpdate.password,
     );
-    console.log({
-      hashedNew,
-      isOldPasswordCorrect,
-      original: userToUpdate.password,
-    });
 
     if (isOldPasswordCorrect) {
       userToUpdate.password = hashedNew;
