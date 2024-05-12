@@ -1,14 +1,9 @@
-import { Customer } from 'src/customers/entities/customer.entity';
-import { Menu } from 'src/menus/entities/menu.entity';
-import { OrderSource } from 'src/order-sources/entities/order-source.entity';
 import { Organization } from 'src/organizations/entities/organization.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToMany,
-  ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -20,25 +15,13 @@ export enum OrderStatus {
 }
 
 // orderSource Living room, Dining, delivery, take out is pickup, OFD jumia, oya now, mo tab, madam tab, yd breakfast, deliveries has delivery amount, is it transfer or cash, vat & dservice charge addition and delivery
-@Entity('order')
-export class Order {
+@Entity('order-source')
+export class OrderSource {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  orderDate: Date;
-
-  @ManyToOne(() => Customer, (customer) => customer.orders)
-  customer: Customer;
-
-  @ManyToOne(() => OrderSource, (order) => order, { cascade: true })
-  orderSource: OrderSource;
-
-  @OneToMany(() => Menu, (menuItem) => menuItem.order, { cascade: true })
-  menu: Menu[];
-
-  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.OPEN })
-  status: OrderStatus;
+  @Column()
+  name: string;
 
   @Column()
   orgId: number;

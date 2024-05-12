@@ -16,6 +16,7 @@ export class CreateOrderType {
   menu: number[];
   status: OrderStatus;
   orgId: number;
+  orderSource: number;
 }
 export class UpdateOrderType {
   orderDate?: Date;

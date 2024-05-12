@@ -7,11 +7,18 @@ import { Order } from './entities/order.entity';
 import { CustomersService } from 'src/customers/customers.service';
 import { MenusService } from 'src/menus/menus.service';
 import { Customer } from 'src/customers/entities/customer.entity';
+import { OrderSource } from 'src/order-sources/entities/order-source.entity';
+import { OrderSourcesService } from 'src/order-sources/order-sources.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, Menu, Customer])],
+  imports: [TypeOrmModule.forFeature([Order, Menu, Customer, OrderSource])],
   controllers: [OrdersController],
-  providers: [OrdersService, CustomersService, MenusService],
+  providers: [
+    OrdersService,
+    CustomersService,
+    MenusService,
+    OrderSourcesService,
+  ],
   exports: [OrdersService],
 })
 export class OrdersModule {}

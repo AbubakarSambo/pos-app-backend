@@ -12,20 +12,28 @@ import { OrdersService } from './orders.service';
 import { CreateOrderType, UpdateOrderType } from './dto/create-order.dto';
 import { CustomersService } from 'src/customers/customers.service';
 import { MenusService } from 'src/menus/menus.service';
+import { OrderSourcesService } from 'src/order-sources/order-sources.service';
+import { Customer } from 'src/customers/entities/customer.entity';
 
 @Controller('orders')
 export class OrdersController {
   constructor(
     private readonly ordersService: OrdersService,
     private readonly customerService: CustomersService,
+    private readonly orderSourceService: OrderSourcesService,
     private readonly menusService: MenusService,
   ) {}
 
   @Post()
   async create(@Body() createOrderDto: CreateOrderType) {
-    const customer = await this.customerService.findOne(
-      createOrderDto.customer,
+    let customer: Customer;
+    if (createOrderDto.customer) {
+      customer = await this.customerService.findOne(createOrderDto.customer);
+    }
+    const orderSource = await this.orderSourceService.findOne(
+      createOrderDto.orderSource,
     );
+
     const MenusPromises = createOrderDto.menu.map((menuItem) =>
       this.menusService.findOne(menuItem),
     );
@@ -37,6 +45,7 @@ export class OrdersController {
       orderDate: createOrderDto.orderDate,
       status: createOrderDto.status,
       orgId: createOrderDto.orgId,
+      orderSource: orderSource.id,
     };
     return this.ordersService.create(payload);
   }

@@ -39,12 +39,16 @@ export class CustomersService {
   }
 
   async findOne(id: number) {
-    const category = await this.customerRepository.findOne({ where: { id } });
-    if (!category) {
-      throw new NotFoundException('Could not find category');
+    console.log({ cutomerIdInsideCustomerService: id });
+    const customer = await this.customerRepository.findOne({
+      where: { id },
+    });
+    console.log({ customer });
+    if (!customer) {
+      throw new NotFoundException('Could not find customer');
     }
 
-    return category;
+    return customer;
   }
 
   async update(id: number, updateCustomerDto: UpdateCustomerDto) {

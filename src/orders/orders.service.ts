@@ -11,17 +11,19 @@ export class OrdersService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
-    // private readonly menuRepository: Repository<Menu>,
   ) {}
   create(createOrderDto: CreateOrderDto) {
-    console.log({ menu: createOrderDto.menu });
+    console.log({ createOrderDto });
     return this.orderRepository.save(createOrderDto);
   }
 
   findAll(orgId: number) {
     return this.orderRepository.find({
       where: { orgId },
-      relations: ['menu', 'customer'],
+      relations: ['menu', 'customer', 'orderSource'],
+      order: {
+        orderDate: 'DESC',
+      },
     });
   }
 
