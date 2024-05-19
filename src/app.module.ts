@@ -32,6 +32,7 @@ import { OrderSourcesModule } from './order-sources/order-sources.module';
         trustServerCertificate: true,
         Encrypt: true,
         IntegratedSecurity: true,
+        rejectUnauthorized: false,
       },
     }),
     UsersModule,
