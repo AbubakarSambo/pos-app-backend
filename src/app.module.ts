@@ -27,7 +27,9 @@ import { OrderSourcesModule } from './order-sources/order-sources.module';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      ssl: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
       extra: {
         trustServerCertificate: true,
         Encrypt: true,
