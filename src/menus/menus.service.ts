@@ -23,6 +23,17 @@ export class MenusService {
     });
   }
 
+  async searchMenus(query: string, orgId: number): Promise<Menu[]> {
+    return this.menuRepository
+      .createQueryBuilder('menu')
+      .where('menu.orgId = :orgId')
+      .andWhere('(LOWER(menu.name) LIKE LOWER(:query))', {
+        query: `%${query}%`,
+        orgId,
+      })
+      .getMany();
+  }
+
   async findOne(id: number) {
     const menu = await this.menuRepository.findOne({ where: { id } });
     if (!menu) {

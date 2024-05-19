@@ -31,9 +31,7 @@ export class Order {
   @ManyToOne(() => Customer, (customer) => customer.orders)
   customer: Customer;
 
-  @ManyToOne(() => OrderSource, (orderSource) => orderSource.orders, {
-    cascade: true,
-  })
+  @ManyToOne(() => OrderSource, (orderSource) => orderSource.orders)
   orderSource: OrderSource;
 
   @ManyToMany(() => Menu, (menu) => menu.orders)

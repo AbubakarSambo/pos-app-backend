@@ -39,6 +39,15 @@ export class MenusController {
     return { data: response, total };
   }
 
+  @Get('search')
+  async searchMenus(
+    @Query('query') query: string,
+    @Query('orgId') orgId: number,
+  ): Promise<Menu[]> {
+    const customers = await this.menusService.searchMenus(query, orgId);
+    return customers;
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.menusService.findOne(+id);

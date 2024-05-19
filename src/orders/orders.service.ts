@@ -3,7 +3,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 // import { Menu } from 'src/menus/entities/menu.entity';
 
 @Injectable()
@@ -29,6 +29,7 @@ export class OrdersService {
   async findOne(id: number) {
     const order = await this.orderRepository.findOne({
       where: { id },
+      relations: ['menuItems', 'customer', 'orderSource'],
     });
     if (!order) {
       throw new NotFoundException('Could not find order');
@@ -40,6 +41,7 @@ export class OrdersService {
   async update(id: number, updateOrderDto: UpdateOrderDto) {
     const orderToUpdate = await this.orderRepository.findOne({
       where: { id },
+      relations: ['menuItems', 'customer', 'orderSource'],
     });
 
     if (orderToUpdate.status) {
@@ -51,7 +53,9 @@ export class OrdersService {
     if (orderToUpdate.customer) {
       orderToUpdate.customer = updateOrderDto.customer;
     }
-
+    if (orderToUpdate.orderSource) {
+      orderToUpdate.orderSource = updateOrderDto.orderSource;
+    }
     const updated = await this.orderRepository.save(orderToUpdate);
     return updated;
   }
@@ -60,11 +64,18 @@ export class OrdersService {
     return `This action removes a #${id} order`;
   }
 
-  // async findMenusInOrder(menuId: number): Promise<Menu[]> {
-  //   return this.menuRepository
-  //     .createQueryBuilder('order')
-  //     .leftJoinAndSelect('order.menu', 'menu')
-  //     .where('menu.id = :id', { menuId })
-  //     .getMany();
-  // }
+  async findAllItemsInWeek(
+    startDate: Date,
+    endDate: Date,
+    orgId: number,
+  ): Promise<Order[]> {
+    const itemsInWeek = await this.orderRepository.find({
+      relations: ['menuItems'],
+      where: {
+        orderDate: Between(startDate, endDate),
+        orgId,
+      },
+    });
+    return itemsInWeek;
+  }
 }

@@ -45,7 +45,7 @@ export class OrdersController {
       orderDate: createOrderDto.orderDate,
       status: createOrderDto.status,
       orgId: createOrderDto.orgId,
-      orderSource: orderSource.id,
+      orderSource: orderSource,
     };
     return this.ordersService.create(payload);
   }
@@ -68,6 +68,7 @@ export class OrdersController {
     let customer;
     let menu;
     let status;
+    let orderSource;
     if (updateOrderDto.customer) {
       customer = await this.customerService.findOne(updateOrderDto.customer);
     }
@@ -80,10 +81,14 @@ export class OrdersController {
     if (updateOrderDto.status) {
       status = updateOrderDto.status;
     }
+    if (updateOrderDto.orderSource) {
+      orderSource = updateOrderDto.orderSource;
+    }
     const payload = {
       customer,
-      menu,
+      menuItems: menu,
       status,
+      orderSource,
     };
     return this.ordersService.update(+id, payload);
   }
