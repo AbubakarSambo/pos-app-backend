@@ -14,6 +14,7 @@ import { MenusModule } from './menus/menus.module';
 import { CustomersModule } from './customers/customers.module';
 import { OrdersModule } from './orders/orders.module';
 import { OrderSourcesModule } from './order-sources/order-sources.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { OrderSourcesModule } from './order-sources/order-sources.module';
     CustomersModule,
     OrdersModule,
     OrderSourcesModule,
+    BookingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
