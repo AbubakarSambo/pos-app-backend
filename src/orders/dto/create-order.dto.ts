@@ -10,6 +10,7 @@ export class CreateOrderDto {
   menuItems: Menu[];
   status: OrderStatus;
   orgId: number;
+  specialRequest?: string;
 }
 
 export class CreateOrderType {
@@ -19,6 +20,7 @@ export class CreateOrderType {
   status: OrderStatus;
   orgId: number;
   orderSource: number;
+  specialRequest?: string;
 }
 export class UpdateOrderType {
   orderDate?: Date;
@@ -26,4 +28,5 @@ export class UpdateOrderType {
   menu?: number[];
   status?: OrderStatus;
   orderSource?: number;
+  specialRequest?: string;
 }

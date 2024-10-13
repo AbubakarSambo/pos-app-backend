@@ -46,6 +46,7 @@ export class OrdersController {
       status: createOrderDto.status,
       orgId: createOrderDto.orgId,
       orderSource: orderSource,
+      specialRequest: createOrderDto.specialRequest,
     };
     return this.ordersService.create(payload);
   }

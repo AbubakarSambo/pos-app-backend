@@ -41,6 +41,9 @@ export class Order {
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.OPEN })
   status: OrderStatus;
 
+  @Column({ nullable: true })
+  specialRequest: string;
+
   @Column()
   orgId: number;
 
